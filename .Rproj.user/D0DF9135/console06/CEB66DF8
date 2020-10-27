@@ -1,0 +1,23 @@
+]0;/home/mbarletta/6_varios/alap~/6_varios/alap[36m [00m > [K~/6_varios/alap[36m [00m > git remote add origin https://github.com/MateoBarletta/scrap_alap.git
+fatal: remote origin already exists.
+]0;/home/mbarletta/6_varios/alap~/6_varios/alap[36m [00m > git init
+Initialized empty Git repository in /home/mbarletta/6_varios/alap/.git/
+]0;/home/mbarletta/6_varios/alap~/6_varios/alap[36m [00m > git initremote add origin https://github.com/MateoBarletta/scrap_alap.git
+]0;/home/mbarletta/6_varios/alap~/6_varios/alap[36m [00m > git add [K[K[K[Kstatus
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	[31m.Rproj.user/[m
+	[31malap.Rproj[m
+	[31mdata/[m
+	[31msrc/[m
+
+nothing added to commit but untracked files present (use "git add" to track)
+]0;/home/mbarletta/6_varios/alap~/6_varios/alap[36m [00m > git add src/.
+]0;/home/mbarletta/6_varios/alap~/6_varios/alap[36m [00m > git add -all
+error: did you mean `--all` (with two dashes ?)
+]0;/home/mbarletta/6_varios/alap~/6_varios/alap[36m [00m > git add -all[C-all

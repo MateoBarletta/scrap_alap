@@ -1,0 +1,341 @@
+# Prueba 3 - Machine Learning
+# Del dataset anterior se desea predecir el número de órdenes para el mes 9, en las distintas
+# plataformas.
+
+# El resultado debe ser un archivo pdf.
+# * Es deseado pero no obligatorio que el resultado sea un jupyter notebook.
+
+library(randomForest)
+library(hrbrthemes)
+library(tidyverse)
+library(forecast)
+library(janitor)
+
+options(scipen = 999)
+
+data <- readxl::read_xlsx("data/Data_sesiones_flujo_de_compra.xlsx") %>% 
+  janitor::clean_names() %>% 
+  separate(country_name_platform, c("country", "platform")) %>% 
+  group_by(platform, month) %>% 
+  summarise(initial_page = sum(initial_page),
+            results_page = sum(results_page),
+            profile_page = sum(profile_page),
+            checkout = sum(checkout),
+            order_placed = sum(order_placed)) %>% 
+  ungroup() 
+
+# 1) Android
+
+android <- data %>% 
+  filter(platform == "Android")
+
+data %>% 
+  pivot_longer(cols = initial_page:order_placed, names_to = "variable", values_to = "valor") %>% 
+  filter(variable == "order_placed") %>% 
+  ggplot(aes(month, valor)) + 
+  geom_line(color = "hotpink") +
+  theme_ipsum()
+
+par(mfrow = c(1,2))
+acf(as.ts(data$order_placed), main = "Número de órdenes")
+pacf(as.ts(data$order_placed), main = "Número de órdenes")
+
+arima <- auto.arima(as.ts(data$order_placed))
+arima
+  
+train_index <- 7
+n_total <- nrow(android)
+android_train1 <- android[1:(train_index),]
+android_test <- android[(train_index+1):n_total,]
+predicted <- numeric(n_total-train_index)
+
+#Then we apply a for cycle that iterates model and estimates one month ahead:
+  
+  for (i in 1:(n_total-train_index)) {
+    android_train <- android[1:(train_index-1+i),]
+    arima_model <- auto.arima(as.ts(android_train$order_placed))
+    pred <- forecast(arima_model, 1)
+    predicted[i] <- pred$mean
+  }
+  
+df_pred <- tibble(obs = c(android_train1$order_placed, android_test$order_placed), 
+                  predicted = c(android_train1$order_placed, predicted), 
+                  time = android$month) 
+
+  
+  ggplot(gather(df_pred, obs_pred, value, -time) %>% 
+           mutate(obs_pred = factor(obs_pred, levels = c("predicted", "obs"))), 
+         aes(x = time, y = value, col = obs_pred, linetype = obs_pred)) +
+  geom_line() +
+  xlab("") + ylab("") +
+  scale_color_manual(values=c("black", "hotpink")) +
+  scale_linetype_manual(values=c(2, 1)) +
+  theme_bw() +
+  theme(legend.title = element_blank(),
+        axis.text.x  = element_text(angle = 45,
+                                    vjust = 0.5))
+  
+# 2) iPad
+  
+ipad <- data %>% 
+    filter(platform == "iPad")
+  
+ipad %>% 
+    pivot_longer(cols = initial_page:order_placed, names_to = "variable", values_to = "valor") %>% 
+    filter(variable == "order_placed") %>% 
+    ggplot(aes(month, valor)) + 
+    geom_line(color = "hotpink") +
+    theme_ipsum()
+  
+  par(mfrow = c(1,2))
+  acf(as.ts(ipad$order_placed), main = "Número de órdenes")
+  pacf(as.ts(ipad$order_placed), main = "Número de órdenes")
+  
+  arima_ipad <- auto.arima(as.ts(ipad$order_placed))
+  arima_ipad
+  
+  train_index <- 7
+  n_total <- nrow(ipad)
+  ipad_train1 <- ipad[1:(train_index),]
+  ipad_test <- ipad[(train_index+1):n_total,]
+  predicted <- numeric(n_total-train_index)
+  
+  #Then we apply a for cycle that iterates model and estimates one month ahead:
+  
+  for (i in 1:(n_total-train_index)) {
+    ipad_train <- ipad[1:(train_index-1+i),]
+    arima_model <- auto.arima(as.ts(ipad_train$order_placed))
+    pred <- forecast(arima_model, 1)
+    predicted[i] <- pred$mean
+  }
+  
+  df_pred <- tibble(obs = c(ipad_train1$order_placed, ipad_test$order_placed), 
+                    predicted = c(ipad_train1$order_placed, predicted), 
+                    time = ipad$month) 
+  
+  
+  ggplot(gather(df_pred, obs_pred, value, -time) %>% 
+           mutate(obs_pred = factor(obs_pred, levels = c("predicted", "obs"))), 
+         aes(x = time, y = value, col = obs_pred, linetype = obs_pred)) +
+    geom_line() +
+    xlab("") + ylab("") +
+    scale_color_manual(values=c("black", "hotpink")) +
+    scale_linetype_manual(values=c(2, 1)) +
+    theme_bw() +
+    theme(legend.title = element_blank(),
+          axis.text.x  = element_text(angle = 45,
+                                      vjust = 0.5))
+  
+# 3) iPhone
+  
+  iphone <- data %>% 
+    filter(platform == "iPhone")
+  
+  iphone %>% 
+    pivot_longer(cols = initial_page:order_placed, names_to = "variable", values_to = "valor") %>% 
+    filter(variable == "order_placed") %>% 
+    ggplot(aes(month, valor)) + 
+    geom_line(color = "hotpink") +
+    theme_ipsum()
+  
+  par(mfrow = c(1,2))
+  acf(as.ts(iphone$order_placed), main = "Número de órdenes")
+  pacf(as.ts(iphone$order_placed), main = "Número de órdenes")
+  
+  arima_iphone <- auto.arima(as.ts(iphone$order_placed))
+  arima_iphone
+  
+  train_index <- 7
+  n_total <- nrow(iphone)
+  iphone_train1 <- iphone[1:(train_index),]
+  iphone_test <- iphone[(train_index+1):n_total,]
+  predicted <- numeric(n_total-train_index)
+  
+  #Then we apply a for cycle that iterates model and estimates one month ahead:
+  
+  for (i in 1:(n_total-train_index)) {
+    iphone_train <- iphone[1:(train_index-1+i),]
+    arima_model <- auto.arima(as.ts(iphone_train$order_placed))
+    pred <- forecast(arima_model, 1)
+    predicted[i] <- pred$mean
+  }
+  
+  df_pred <- tibble(obs = c(iphone_train1$order_placed, iphone_test$order_placed), 
+                    predicted = c(iphone_train1$order_placed, predicted), 
+                    time = iphone$month) 
+  
+  
+  ggplot(gather(df_pred, obs_pred, value, -time) %>% 
+           mutate(obs_pred = factor(obs_pred, levels = c("predicted", "obs"))), 
+         aes(x = time, y = value, col = obs_pred, linetype = obs_pred)) +
+    geom_line() +
+    xlab("") + ylab("") +
+    scale_color_manual(values=c("black", "hotpink")) +
+    scale_linetype_manual(values=c(2, 1)) +
+    theme_bw() +
+    theme(legend.title = element_blank(),
+          axis.text.x  = element_text(angle = 45,
+                                      vjust = 0.5))
+  
+# 3) Web
+  
+  web <- data %>% 
+    filter(platform == "Web")
+  
+  web %>% 
+    pivot_longer(cols = initial_page:order_placed, names_to = "variable", values_to = "valor") %>% 
+    filter(variable == "order_placed") %>% 
+    ggplot(aes(month, valor)) + 
+    geom_line(color = "hotpink") +
+    theme_ipsum()
+  
+  par(mfrow = c(1,2))
+  acf(as.ts(web$order_placed), main = "Número de órdenes")
+  pacf(as.ts(web$order_placed), main = "Número de órdenes")
+  
+  arima_web <- auto.arima(as.ts(web$order_placed))
+  arima_web
+  
+  train_index <- 7
+  n_total <- nrow(web)
+  web_train1 <- web[1:(train_index),]
+  web_test <- web[(train_index+1):n_total,]
+  predicted <- numeric(n_total-train_index)
+  
+  #Then we apply a for cycle that iterates model and estimates one month ahead:
+  
+  for (i in 1:(n_total-train_index)) {
+    web_train <- web[1:(train_index-1+i),]
+    arima_model <- auto.arima(as.ts(web_train$order_placed))
+    pred <- forecast(arima_model, 1)
+    predicted[i] <- pred$mean
+  }
+  
+  df_pred <- tibble(obs = c(web_train1$order_placed, web_test$order_placed), 
+                    predicted = c(web_train1$order_placed, predicted), 
+                    time = web$month) 
+  
+  
+  ggplot(gather(df_pred, obs_pred, value, -time) %>% 
+           mutate(obs_pred = factor(obs_pred, levels = c("predicted", "obs"))), 
+         aes(x = time, y = value, col = obs_pred, linetype = obs_pred)) +
+    geom_line() +
+    xlab("") + ylab("") +
+    scale_color_manual(values=c("black", "hotpink")) +
+    scale_linetype_manual(values=c(2, 1)) +
+    theme_bw() +
+    theme(legend.title = element_blank(),
+          axis.text.x  = element_text(angle = 45,
+                                      vjust = 0.5))
+ 
+  # ARIMA no sirve! 
+  
+# Polinomios
+  
+android  
+x = data$month
+y = data$order_placed
+  
+# Define the Polynomial model: y ~ poly(x,2, raw = TRUE)
+Model = lm(y ~ poly(x, 2, raw = TRUE))
+  
+  # Summarise the fitted model
+summary(Model)
+  # Summarise the r_squared for actual and fitted data 
+summary(Model)$r.squared
+r2 <- cor(fitted(Model), y)^2; print(r2)
+  
+  # Generate the trendline and fitted values
+tendency  = coef(Model)[[3]] * x^2 + coef(Model)[[2]] * x + coef(Model)[[1]]
+print(tendency)
+  
+  # Generate the forecast in the future time horizon
+steps = 1
+  x_in_Future <- (length(x)+1) : (length(x)+steps)
+  
+  forecastedValues  = coef(Model)[[3]]  * x_in_Future^2 + coef(Model)[[2]]  * x_in_Future + coef(Model)[[1]]; print(forecastedValues)
+  
+  # Plotting Observed versus Predicted
+  res <- stack(data.frame(Observed = c(y,forecastedValues), 
+                          Predicted = c(tendency, forecastedValues)))
+  res <- cbind(res, x = rep(c(x,x_in_Future) , 2))
+  
+  require("lattice")
+  g1 <- xyplot(values ~ x, data = res, group = ind, auto.key = TRUE, grid = TRUE,
+               type=c("p","l"))
+  
+  library(gridExtra)
+  grid.arrange(g1, nrow = 1)
+
+  
+  
+  x = df$V1; y = df$dataSet
+  
+  # Define the Polynomial model: y ~ poly(x,3, raw = TRUE)
+  Model2 = lm(y ~ poly(x,3, raw = TRUE))
+  
+  # Summarise the fitted model
+  summary(Model22)
+  # Summarise the r_squared for actual and fitted data 
+  summary(Model2)$r.squared; r2 <- cor(fitted(Model2), y)^2; print(r2)
+  
+  # Generate the trendline and fitted values
+  tendency = coef(Model2)[[4]] * x^3 + coef(Model2)[[3]] * x^2 + coef(Model2)[[2]] * x + coef(Model2)[[1]]
+  print(tendency)
+  
+  # Generate the forecast in the future time horizon
+  steps = 25
+  x_in_Future <- (length(x)+1) : (length(x)+steps)
+  
+  forecastedValues = coef(Model2)[[4]] * x_in_Future^3 + coef(Model2)[[3]] * x_in_Future^2 + coef(Model2)[[2]] * x_in_Future + coef(Model2)[[1]]  
+  print(forecastedValues)
+  
+  # Plotting Observed versus Predicted
+  res <- stack(data.frame(Observed = c(y,forecastedValues), 
+                          Predicted = c(tendency, forecastedValues)))
+  res <- cbind(res, x = rep(c(x,x_in_Future) , 2))
+  
+  require("lattice")
+  g1 <- xyplot(values ~ x, data = res, group = ind, auto.key = TRUE, grid = TRUE,
+               type=c("p","l"))
+  
+  library(gridExtra)
+  grid.arrange(g1, nrow = 1)    
+  
+  # Modelo lineal
+  
+  # Define the Linear model: y = b * x + a
+  Model = lm(y ~ x)
+  
+  # Summarise the fitted model 
+  summary(Model)
+  
+  # Summarise the r_squared for actual and fitted data 
+  r2 <- cor(fitted(Model), y)^2
+  summary(Model)$r.squared 
+  print(r2)
+  
+  # Generate the equations
+  paste('y =', coef(Model)[[2]], '* x', '+', coef(Model)[[1]])
+  
+  # Generate the trendline and fitted values
+  tendency  = coef(Model)[[2]] * x + coef(Model)[[1]]; print(tendency)
+  
+  # Generate the forecast in the future time horizon
+  steps = 25
+  x_in_Future <- (length(x)+1) : (length(x)+steps)
+  
+  forecastedValues  = coef(Model)[[2]]  * x_in_Future + coef(Model)[[1]];  print(forecastedValues)
+  
+  # Plotting Observed versus Predicted
+  res <- stack(data.frame(Observed = c(y), 
+                          Predicted = c(tendency, forecastedValues)))
+  res <- cbind(res, x = rep(c(x,x_in_Future) , 2))
+  
+  require("lattice")
+  g1 <- xyplot(values ~ x, data = res, group = ind, auto.key = TRUE, grid = TRUE,
+               type=c("p","l"))
+  
+  library(gridExtra)
+  grid.arrange(g1, nrow = 1)
+  

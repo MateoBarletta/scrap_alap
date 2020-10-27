@@ -1,0 +1,89 @@
+library(dplyr)
+library(stringr)
+library(lubridate)
+library(here)
+library(janitor)
+library(readxl)
+
+
+## Lee reportes del sistema de molinetes
+df_mayo <- here::here('data', 'mayo_2020.xlsx') %>% 
+  read_excel() %>% 
+  clean_names() %>% 
+  mutate(fecha = as_date(fecha_hora),
+         hora  = hms::as_hms(fecha_hora))
+
+
+df_junio <- here::here('data', 'junio_2020.xlsx') %>% 
+  read_excel() %>% 
+  clean_names() %>% 
+  mutate(fecha = as_date(fecha_hora),
+         hora  = hms::as_hms(fecha_hora))
+
+df_julio <- here::here('data', 'julio_2020.xlsx') %>% 
+  read_excel() %>% 
+  clean_names() %>% 
+  mutate(fecha = as_date(fecha_hora),
+         hora  = hms::as_hms(fecha_hora))
+
+df_agosto<- here::here('data', 'agosto_2020.xlsx') %>% 
+  read_excel() %>% 
+  clean_names() %>% 
+  mutate(fecha = as_date(fecha_hora),
+         hora  = hms::as_hms(fecha_hora))
+
+df_setiembre <- here::here('data', 'setiembre_2020.xlsx') %>% 
+  read_excel() %>% 
+  clean_names() %>% 
+  mutate(fecha_hora= as.POSIXct(fecha_hora),
+         fecha = as_date(fecha_hora),
+         hora  = hms::as_hms(fecha_hora))
+
+
+## Funciones para limpieza de archivos y resumen
+estandariza_horarios <- function(df){
+  
+  aux <- df
+  
+  aux_salida <- aux %>% 
+  filter(modo == "S") %>% 
+  group_by(fecha) %>% 
+  mutate(orden = rank(desc(hora))) %>% 
+  filter(orden == 1) %>% 
+  transmute(fecha, 
+            hora_salida = hora)
+  
+  aux_entrada <- aux %>% 
+  filter(modo == "E") %>% 
+  group_by(fecha) %>% 
+  mutate(orden = rank(hora)) %>% 
+  filter(orden == 1) %>% 
+  transmute(fecha, 
+            hora_entrada = hora)
+  
+  left_join(aux_entrada, aux_salida) %>% 
+  mutate(total_jornada = hms::as_hms(hora_salida - hora_entrada))
+  
+  }
+
+resumen <- function(df){
+  
+  df %>% 
+    group_by() %>% 
+    summarise(total_dias  = fecha %>% unique %>% length(),
+              total_horas = total_jornada %>% as.numeric() %>%  sum() %>% hms::as_hms() %>% str_remove(":..$"),
+              total_prom  = total_jornada %>% as.numeric() %>% mean() %>% hms::as_hms() %>% str_extract("^\\d\\d:\\d\\d"))
+  
+}
+
+horarios_mayo   <- estandariza_horarios(df_mayo)
+horarios_junio  <- estandariza_horarios(df_junio)
+horarios_julio  <- estandariza_horarios(df_julio)
+horarios_agosto <- estandariza_horarios(df_agosto)
+horarios_setiembre <- estandariza_horarios(df_setiembre)
+
+resumen_mayo   <- resumen(horarios_mayo)
+resumen_junio  <- resumen(horarios_junio)
+resumen_julio  <- resumen(horarios_julio)
+resumen_agosto <- resumen(horarios_agosto)
+resumen_setiembre <- resumen(horarios_setiembre)

@@ -1,0 +1,80 @@
+library(dplyr)
+library(janitor)
+library(readr)
+library(lubridate)
+library(polite)
+
+# Importo lista leyes obtenida de https://parlamento.gub.uy/documentosyleyes/leyes
+leyes <- read_csv("data/internas/lista_leyes-2020-10-21-16-55.csv") %>% 
+  clean_names() %>% 
+  transmute(numero_ley         = ley,
+            fecha_promulgacion = dmy(promulgacion),
+            anio               = year(fecha_promulgacion),
+            titulo, asunto, 
+            tipo               = case_when(numero_ley > 15735 ~ "ley",
+                                           anio       <= 1973 ~ "ley", 
+                                           TRUE ~ 'decreto-ley'))
+
+# Filtro leyes a scrappear que no sean decretos-ley
+leyes_sc <- leyes %>% 
+  filter(tipo=='ley')
+
+# Loop para bajar uno a uno los archivos de leyes, los i/j son para cuando se tranca la bajada, son 8800 archivos
+i <- 1
+empieza <- Sys.time()
+
+j <- i
+for(i in j:nrow(leyes_sc)){
+  
+  id_ley <- paste0(as.character(leyes_sc[i, "numero_ley"]), "-", as.character(leyes_sc[i, "anio"]))
+  link   <- paste0("https://www.impo.com.uy/bases/leyes/", id_ley, "?json=true")
+  session <- bow(link)
+  
+  if (is.polite(session)==T){
+    
+    download.file(link, destfile = paste0("~/../databases/impo/leyes/", id_ley, ".json"), method = "libcurl")
+    
+  } else {
+    
+    Sys.sleep(5)
+    download.file(link, destfile = paste0("~/../databases/impo/leyes/", id_ley, ".json"), method = "libcurl")
+    
+  }
+}
+termina <- Sys.time()
+termina-empieza
+
+rm(i, j, termina, empieza, id_ley, link, session, leyes_sc)
+
+# Ahora scrappeo los decretos
+decretos_sc <- leyes %>% 
+  filter(tipo=='decreto-ley')
+
+i <- 1
+empieza <- Sys.time()
+
+j <- i
+for(i in j:nrow(decretos_sc)){
+  
+  id_ley <- paste0(as.character(decretos_sc[i, "numero_ley"]), "-", as.character(decretos_sc[i, "anio"]))
+  link   <- paste0("https://www.impo.com.uy/bases/decretos-ley/", id_ley, "?json=true")
+  session <- bow(link)
+  
+  if (is.polite(session)==T){
+    
+    download.file(link, destfile = paste0("~/../databases/impo/decretos_ley/", id_ley, ".json"), method = "libcurl")
+    
+  } else {
+    
+    Sys.sleep(5)
+    download.file(link, destfile = paste0("~/../databases/impo/decretos_ley/", id_ley, ".json"), method = "libcurl")
+    
+  }
+}
+termina <- Sys.time()
+termina-empieza
+
+rm(i, j, termina, empieza, id_ley, link, session, decretos_sc, leyes)
+
+
+

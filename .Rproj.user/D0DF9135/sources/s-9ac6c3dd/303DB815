@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1603819775392.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4062883918",
+    "id" : "303DB815",
+    "lastKnownWriteTime" : 1603832270,
+    "last_content_update" : 1603832270161,
+    "path" : "~/6_varios/alap/src/2_tidy.R",
+    "project_path" : "src/2_tidy.R",
+    "properties" : {
+        "cursorPosition" : "200,0",
+        "scrollLine" : "183",
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

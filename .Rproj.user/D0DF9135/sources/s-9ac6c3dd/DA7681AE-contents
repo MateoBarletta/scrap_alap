@@ -1,0 +1,92 @@
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(here)
+library(naniar)
+library(readxl)
+
+
+## TIPO DE CAMBIO REAL
+
+# Importo el .xls de TCRE previamente descargado de la pagina del BCU
+names_col_tcre <- c("nada", "Fecha", "Efectivo Global", "Efectivo Extrarregional", "Efectivo Regional", "Argentina", "Brasil",
+                    "EEUU", "Mexico", "Alemania", "España", "Reino Unido", "Italia", "China")
+
+df_tcre <- read_xls(here::here("data/externas/local_bcu_tcre.xls"), col_names = names_col_tcre, skip = 9) %>% 
+  filter(!is.na(EEUU)) %>%
+  select(-nada) %>% 
+  mutate(Fecha = as.Date(as.integer(Fecha), origin = "1899-12-30")) %>% 
+  gather(Destino, Indice, -Fecha)
+
+saveRDS(df_tcre, file = here::here('data', 'internas', 'df_tcre.rds'))
+rm(names_col_tcre)
+
+
+## TIPO DE CAMBIO NOMINAL
+
+# Importa las cotizaciones previamente descargadas de la pagina del INE
+names_col_tc <- c("dia", "mes", "anio", "dolar.compra", "dolar.venta", "nada",  
+                  "dolar.ebrou.compra", "dolar.ebrou.venta", "nada3", "euro.compra", "euro.venta",
+                  "nada1", "peso.arg.compra", "peso.arg.venta", "nada2", "real.compra", "real.venta")
+
+# Limpia filas vacias
+tc_aux <- read_xls(here::here("data/externas/local_ine_tc.xls"), skip = 5)
+
+tc_aux <- tc_aux[,1:17]
+colnames(tc_aux) <- names_col_tc
+
+tc_aux <- tc_aux %>% 
+  select(-starts_with('nada'), -starts_with('dolar.ebrou')) %>% 
+  replace_with_na(replace = list(euro.compra = '..', euro.venta = '..', peso.arg.compra = '..', peso.arg.venta = '..')) %>% 
+  filter(!is.na(dia))
+
+# Completa las celdas vacias en la columna mes
+for (i in 1:nrow(tc_aux)){
+  
+  if (is.na(tc_aux[i,'mes']) == TRUE) {
+    
+    tc_aux[i,'mes'] = tc_aux[i-1,'mes']
+    
+  }
+  
+}
+
+# Completa las celdas vacias en la columna anio
+for (i in 1:nrow(tc_aux)){
+  
+  if (is.na(tc_aux[i,'anio']) == TRUE) {
+    tc_aux[i,'anio'] = tc_aux[i-1,'anio']
+  }
+  
+}
+
+# Modifica el mes en letras por numero y genera los tipo de cambio promedio entre compra y venta
+meses <- c("Enero" = "Jan", "Febrero" = "Feb", "Marzo" = "Mar", "Abril" = "Apr", "April" = "Apr",
+           "Mayo" = "May", "Junio" = "Jun", "Julio" = "Jul", "Agosto" = "Aug", "Setiembre" = "Sep",
+           "Septiembre" = "Sep", "Octubre" = "Oct", "Noviembre" = "Nov", "Diciembre" = "Dec",
+           "Ene" = "Jan", "Abr" = "Apr", "Ago" = "Aug", "Set" = "Sep", "Dic" = "Dec")
+
+tc_aux$mes <- str_replace_all(tc_aux$mes, meses)
+
+tc_aux2 <- tc_aux %>% 
+  mutate(Fecha            =  as.Date(paste(dia, mes, anio, sep = "/"), format="%d/%b/%Y"),
+         Dolar            = (dolar.compra + dolar.venta)/2,
+         Real             = (real.compra + real.venta)/2,
+         `Peso argentino` = (as.numeric(peso.arg.compra) + as.numeric(peso.arg.venta))/2,
+         Euro             = NA)
+
+for (i in 1:nrow(tc_aux2)){
+  if (is.na(tc_aux2[i,'euro.compra']) == FALSE) {
+    tc_aux2[i,"Euro"] = ((as.numeric(tc_aux2[i,"euro.compra"]) + as.numeric(tc_aux2[i,"euro.venta"]))/2)
+  }
+}
+
+# Reshape del data frame
+df_tc <- tc_aux2 %>% 
+  select('Fecha', 'Dolar', 'Real', 'Peso argentino', 'Euro') %>% 
+  gather(Moneda, Valor, -Fecha)
+
+saveRDS(df_tc, file = here::here('data', 'internas', '/df_tc.rds'))
+rm(tc_aux, tc_aux2, names_col_tc, meses, i)
+
+

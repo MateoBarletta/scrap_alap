@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1603807754904.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "F236BA16",
+    "lastKnownWriteTime" : 1603819766,
+    "last_content_update" : 1603819766115,
+    "path" : "~/6_varios/alap/src/1_scrap.R",
+    "project_path" : "src/1_scrap.R",
+    "properties" : {
+        "cursorPosition" : "17,23",
+        "scrollLine" : "8",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

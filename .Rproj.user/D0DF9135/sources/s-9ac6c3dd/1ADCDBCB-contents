@@ -1,0 +1,46 @@
+library(tidyverse)
+library(Metrics)
+library(readxl)
+
+quien_gano_la_penca <- function(){
+  
+  df_resultados <- read_excel("data/df_resultados.xlsx") 
+  
+  df_personas <- read_excel("data/penca_octubre_19.xlsx", sheet = "predicted") %>%
+    pivot_longer(- Partido, names_to = "persona", values_to = "predicted")  %>% 
+    left_join(df_resultados, by = 'Partido') %>% 
+    filter(!is.na(predicted)) %>% 
+    filter(Partido != "Total") %>% 
+    filter(Partido != "Reforma") %>% 
+    group_by(persona) %>%
+    summarise(rmse_primario = rmse(primario, predicted)) %>% 
+    arrange(rmse_primario)
+  
+  ganador <- df_personas[1,1]
+  
+  paste('El mejor predictor de la fiesta cívica fue', ganador)
+  
+}
+
+quien_gano_la_penca()
+
+quien_gano_la_penca_reforma <- function(){
+  
+  df_resultados <- read_excel("data/df_resultados.xlsx") 
+  
+  df_personas <- read_excel("data/penca_octubre_19.xlsx", sheet = "predicted") %>%
+    pivot_longer(- Partido, names_to = "persona", values_to = "predicted")  %>% 
+    left_join(df_resultados, by = 'Partido') %>% 
+    filter(!is.na(predicted)) %>% 
+    filter(Partido == "Reforma") %>% 
+    group_by(persona) %>%
+    summarise(rmse_primario = rmse(primario, predicted)) %>% 
+    arrange(rmse_primario)
+  
+  ganador <- df_personas[1,1]
+  
+  paste('El mejor predictor del plebiscito fue', ganador)
+  
+}
+
+quien_gano_la_penca_reforma()

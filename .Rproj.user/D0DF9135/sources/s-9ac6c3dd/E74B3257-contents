@@ -1,0 +1,307 @@
+library(dplyr)
+library(stringr)
+library(tidyr)
+library(readxl)
+library(lubridate)
+library(janitor)
+library(hms)
+
+# Importo los duas de exportaciones
+path_exportaciones <- "/home/databases/exportaciones_bienes"
+
+exportaciones_2019 <- file.path(path_exportaciones, '2019', 'exportaciones_2019.rds') %>% 
+  readRDS() %>% 
+  transmute(rut = ruc, fecha, anio = as.character(anio), mes = as.character(mes),
+            ncm, ncm_2 = str_sub(ncm, 1, 2), ncm_4 = str_sub(ncm, 1, 4), ncm_10 = str_sub(ncm, 1, 10),
+            dua = as.character(due), descripcion,
+            pais, aduana_embarque, aduana_salida, 
+            exportador, via_tran, nombre_transporte, despachante, deposito, nombre_deposito,
+            fob, t_c, cant_com, unidad_medida, valor_unit, kg_netos, kg_brutos, vol_fisico, unidad_vol_fisico)
+
+exportaciones_2018 <- file.path(path_exportaciones, '2018', 'exportaciones_2018.rds') %>% 
+  readRDS() %>%
+  clean_names() %>% 
+  transmute(rut = r_u_c, fecha, anio = as.character(anio), mes = as.character(mes), 
+            ncm, ncm_2 = str_sub(ncm, 1, 2), ncm_4 = str_sub(ncm, 1, 4), ncm_10 = str_sub(ncm, 1, 10),
+            dua = as.character(due), descripcion,
+            pais, aduana_embarque, aduana_salida, 
+            exportador, via_tran, nombre_transporte, despachante, deposito, nombre_deposito,
+            fob = fob * 1000, t_c, cant_com, unidad_medida, valor_unit, kg_netos, kg_brutos, vol_fisico, unidad_vol_fisico)
+
+# Importo tarifario anp
+tarifario_anp <- read_excel("data/tarifario_anp.xlsx", skip = 5) %>% 
+  clean_names() %>% 
+  filter(tipo_de_tarifa == "Despacho" & tipo_de_operacion == 'Exportación')
+
+tarifario_10 <- tarifario_anp %>% 
+  filter(nchar(ncm)==10) %>% 
+  transmute(ncm_10    = ncm,
+            tarifa_10 = tarifa)
+
+tarifario_4 <- tarifario_anp %>% 
+  filter(nchar(ncm)==4) %>% 
+  transmute(ncm_4    = ncm,
+            tarifa_4 = tarifa)
+
+tarifario_2 <- tarifario_anp %>% 
+  filter(nchar(ncm)==2) %>% 
+  transmute(ncm_2    = ncm,
+            tarifa_2 = tarifa)
+
+
+# Uno las bases y filtro solo los movimientos de los puertos
+df_exportaciones_puerto <- bind_rows(exportaciones_2018, exportaciones_2019) %>% 
+  filter(aduana_salida=='MONTEVIDEO' & via_tran == "MARITIMA") %>% 
+  left_join(tarifario_10, by = 'ncm_10') %>% 
+  left_join(tarifario_4,  by = 'ncm_4') %>% 
+  left_join(tarifario_2,  by = 'ncm_2') %>% 
+  mutate(granel = str_detect(descripcion, "GRANEL|BUTANO|PROPANO"),
+         tarifa = case_when(is.na(tarifa_10)==F ~ tarifa_10, 
+                            is.na(tarifa_4)==F  ~ tarifa_4,
+                            is.na(tarifa_2)==F  ~ tarifa_2),
+         tarifa = case_when(granel==TRUE ~ 2.83, TRUE ~ tarifa),
+         despacho_anp = (kg_brutos/1000)*tarifa)
+
+# Ingresos por cobros a la carga a las exportaciones en el puerto de montevideo en el año 2018
+df_exportaciones_puerto %>% 
+  group_by(anio) %>% 
+  summarise(total_despacho=sum(despacho_anp)) %>% 
+  mutate(operacion = 'exportacion') %>% 
+  as_data_frame()
+
+rm(tarifario_2, tarifario_4, tarifario_10)
+
+# Importo df importaciones 2019 (Transaction)
+df_importaciones <- readRDS("/home/databases/importaciones_bienes/df_importaciones.rds")
+
+# Chequeo la suma total de las impo por año y por aduana, OK
+df_importaciones %>% 
+  group_by(anio) %>% 
+  summarise(total_cif=sum(cif))
+
+# # Chequeo por aduana para el 2018
+# df_importaciones %>% 
+#   group_by(anio, aduana) %>% 
+#   summarise(total_cif=sum(cif)) %>% 
+#   spread(anio, total_cif)
+
+
+# Aplico las tarifas de la carga contenerizada, 
+# para ajustar las tarifas hay que joinear con la base de tránsitos y 
+# aplicar tarifas diferenciales a la carga granel y carga general
+df_importaciones_puerto <- df_importaciones %>% 
+  filter(aduana == "MONTEVIDEO" & via_tran == "MARITIMA") %>% 
+  mutate(usd_ton = cif/(kg_brutos/1000),
+         descripcion = str_to_upper(descripcion),
+         t_oper      = str_replace_all(t_oper, "\\.", ""),
+         granel      = str_detect(descripcion, "GRANEL|BUTANO|PROPANO"),
+         granel      = case_when(ncm_4 == '1005' ~ TRUE,
+                                 ncm_2 == '31' ~ TRUE,
+                                 TRUE ~ granel),
+         origen_mercosur = str_detect(pais_origen, "ARGENTINA|BRASIL|PARAGUAY|VENEZUELA"),
+         tarifa = case_when(t_oper == "AT" ~ 11.33,
+                            t_oper == "IMPORT" & usd_ton < 500   ~ 14.17,
+                            t_oper == "IMPORT" & usd_ton >= 500  &  usd_ton < 1000 ~ 21.26,
+                            t_oper == "IMPORT" & usd_ton >= 1000 &  usd_ton < 1500 ~ 42.51,
+                            t_oper == "IMPORT" & usd_ton >= 1500 &  usd_ton < 2000 ~ 85.01,
+                            t_oper == "IMPORT" & usd_ton >= 2000 &  usd_ton < 2500 ~ 120.44,
+                            t_oper == "IMPORT" & usd_ton >= 2500 ~ 141.70,
+                            t_oper == "IMPORT" & usd_ton == Inf  ~ 0),    
+         tarifa = case_when(t_oper == "AT"     & usd_ton < 500 ~ 8.5,
+                            t_oper == "AT"     & usd_ton == Inf ~ 0,
+                            t_oper == "AT"     & ncm_2 == "15" ~ 2.83,
+                            t_oper == "AT"     & ncm_4 == "3907" ~ 2.83,
+                            t_oper == "AT"     & ncm == "3901909000" ~ 2.83,
+                            t_oper == "IMPORT" & ncm == "1005100000" ~ 7.08,
+                            t_oper == "IMPORT" & ncm == "3901909000" ~ 7.08,
+                            t_oper == "IMPORT" & ncm == "3907600000" ~ 7.08,
+                            t_oper == "IMPORT" & ncm == "3907610010" ~ 7.08,
+                            t_oper == "IMPORT" & ncm == "3907610090" ~ 7.08,
+                            t_oper == "IMPORT" & ncm == "3907690010" ~ 7.08,
+                            t_oper == "IMPORT" & ncm == "3907690090" ~ 7.08,
+                            t_oper == "IMPORT" & ncm == "3907610090" ~ 7.08,
+                            t_oper == "IMPORT" & ncm == "3901202900" ~ 7.08,
+                            t_oper == "IMPORT" & ncm == "4002191900" & usd_ton > 1000 ~ 42.51,
+                            t_oper == "IMPORT" & ncm == "4002209000" & usd_ton > 1000 ~ 42.51,
+                            t_oper == "IMPORT" & ncm == "4002390000" & usd_ton > 1000 ~ 42.51,
+                            t_oper == "IMPORT" & ncm == "8708999050" & usd_ton > 1000 ~ 42.51,
+                            t_oper == "IMPORT" & ncm_2 == "51" ~ 11.33,
+                            t_oper == "IMPORT" & ncm_4 == "7208" ~ 3.54,
+                            t_oper == "IMPORT" & ncm_4 == "7209" ~ 3.54,
+                            t_oper == "IMPORT" & ncm_4 == "7210" ~ 3.54,
+                            t_oper == "IMPORT" & ncm_4 == "7211" ~ 3.54,
+                            t_oper == "IMPORT" & ncm_4 == "7212" ~ 3.54,
+                            t_oper == "IMPORT" & ncm_4 == "7213" ~ 3.54,
+                            granel == TRUE & usd_ton < 50 ~ 0.71,
+                            granel == TRUE & usd_ton >= 50 & usd_ton < 100 ~ 2.12, 
+                            granel == TRUE & usd_ton >= 100 ~ 3.54,
+                            TRUE ~ tarifa),
+         despacho_anp = (kg_brutos/1000)*tarifa,
+         despacho_anp = case_when(t_oper == "IMPORT" & ncm_4 == "8703" & origen_mercosur == TRUE ~ despacho_anp* 0.6,
+                                  t_oper == "IMPORT" & ncm_4 == "8704" & origen_mercosur == TRUE ~ despacho_anp* 0.6,
+                                  TRUE ~ despacho_anp))
+
+# Ingresos por despacho del puerto de montevideo, balancep anp = 69.593.024 USD
+df_importaciones_puerto %>%
+  group_by(anio) %>% 
+  summarise(total_despacho  = sum(despacho_anp, na.rm=T),
+            total_tn_brutos = sum(kg_brutos, na.rm=T)/1000,
+            total_tn_netas  = sum(kg_netos, na.rm=T)/1000,
+            total_cif       = sum(cif, na.rm=T))
+
+despacho_importacion <- df_importaciones_puerto %>%
+  group_by(anio) %>% 
+  summarise(total_despacho  = sum(despacho_anp, na.rm=T)) %>% 
+  mutate(operacion='importacion') %>% 
+  as_data_frame()
+
+# # Voy a intentar captar las importaciones que sean a granel para aplicarle una tarifa diferencial
+# aux <- df_importaciones_puerto %>% 
+#   filter(granel==T) %>% 
+#   transmute(anio, kg_brutos, tipo = 'import' )
+# 
+# granel <- df_exportaciones_puerto %>% 
+#   filter(granel==T) %>% 
+#   transmute(anio, kg_brutos, tipo = 'export' ) %>% 
+#   bind_rows(aux)
+# 
+# rm(aux)
+## Chequeo toneladas cargadas a granel por año
+# granel %>% 
+#   group_by(anio, tipo) %>% 
+#   summarise(kg_brutos = sum(kg_brutos, na.rm=T)) %>% 
+#   spread(tipo, kg_brutos)
+
+
+### TRANSITOS ###
+# Leo repo de transitos
+# source('~/1_repo/r_inalog_transitos/src/1_import.R', echo=TRUE)
+# 
+# transitos_2018 <- r_inalog_transitos$datos$a_inalog_transitos %>% 
+#   filter(anio=='2018')
+#   # mutate(aduana_salida  = str_replace_all(aduana_salida, "\\s", ""),
+#   #        aduana_destino = str_replace_all(aduana_salida, "\\s", ""),
+#   #        )
+
+transitos_2018 <- readRDS("data/transitos_2018.rds")
+
+salida_puerto <- transitos_2018 %>% 
+  filter(res_aduana_salida == '3. MONTEVIDEO, CARRASCO Y ZA' & res_salida == 'PUERTO') 
+
+destino_puerto <- transitos_2018 %>% 
+  filter(res_aduana_destino == '3. MONTEVIDEO, CARRASCO Y ZA' & res_destino == 'PUERTO')
+
+transitos_puerto <- bind_rows(salida_puerto, destino_puerto) %>% 
+  mutate(tarifa = 2.83,
+         despacho_anp = ton_brutas * tarifa) 
+
+# saveRDS(transitos_puerto, "data/transitos_puerto.rds")
+# saveRDS(transitos_2018, "data/transitos_2018.rds")
+
+despacho_transitos <- transitos_puerto %>% 
+  group_by() %>% 
+  summarise(anio = '2018',
+            total_despacho = sum(despacho_anp),
+            operacion = 'transitos') %>% 
+  as_data_frame()
+
+despachos_2018 <- bind_rows(despacho_exportacion, despacho_importacion, despacho_transitos) %>% 
+  filter(anio=='2018')
+
+saveRDS(despachos_2018, "output/tablas/tabla_despacho_2018.rds")
+
+codiguera_4 <- codigueras::ncm_base %>% 
+  filter(variable == 'ncm_4') %>% 
+  transmute(ncm_4 = as.character(codigo), 
+            descripcion = str_to_sentence(descripcion)) %>% 
+  distinct()
+
+top_exportaciones <- df_exportaciones_puerto %>% 
+  filter(anio=='2018') %>% 
+  group_by(ncm_4) %>% 
+  summarise(total_despacho = sum(despacho_anp, na.rm=T),
+            participacion = total_despacho/sum(total_despacho)) %>% 
+  as_data_frame() %>% 
+  left_join(codiguera_4, by='ncm_4') %>% 
+  mutate(participacion  = round(total_despacho/sum(total_despacho),3)) %>% 
+  arrange(desc(total_despacho))
+
+top_importaciones <- df_importaciones_puerto %>% 
+  filter(anio=='2018') %>% 
+  group_by(ncm_4) %>% 
+  summarise(total_despacho = sum(despacho_anp, na.rm=T)) %>% 
+  as_data_frame() %>% 
+  left_join(codiguera_4, by='ncm_4') %>% 
+  mutate(participacion  = round(total_despacho/sum(total_despacho),3)) %>% 
+  arrange(desc(total_despacho))
+  
+# saveRDS(top_exportaciones, "output/tablas/tabla_top_exportaciones.rds")
+# saveRDS(top_importaciones, "output/tablas/tabla_top_importaciones.rds")
+
+rm(r_inalog_transitos)
+
+### INGRESOS POR COBROS AL BUQUE
+df_arribos <- readRDS('/home/databases/puerto/internas/r_puerto_montevideo.rds')$datos$exportaciones$df_arribos %>% 
+  transmute(id_escala, nombre_buque, tipo_buque, agente_escala, bandera, eslora, 
+            trb = as.double(trb),
+            eta, ets, cta, cts, rta, rts)
+
+df_arribos2 <- readRDS('/home/databases/puerto/internas/r_puerto_montevideo.rds')$datos$exportaciones$df_arribos %>% 
+  transmute(id_escala, nombre_buque, tipo_buque, agente_escala, bandera, eslora, 
+            trb = as.double(trb),
+            eta, ets, cta, cts, rta, rts)
+
+df_escalas     <- readRDS('/home/databases/puerto/internas/r_puerto_montevideo.rds')$datos$exportaciones$df_escalas
+df_movimientos <- readRDS('/home/databases/puerto/internas/r_puerto_montevideo.rds')$datos$exportaciones$df_movimientos2
+# df_arribos$tipo_buque %>% unique()
+
+tipo_buque <- data_frame(
+  tipo_buque = c("CONTENEDORES", "RO-RO", "REEFER", "CARGA GENERAL", "BUQUE TANQUE", "PETROLERO" , "GRANELERO", "CABOTAJE", "CRUCERO", 
+                 "PESQUERO", "PESCA CONGELADA", "DE GUERRA", "BARCAZA", "REMOLCADOR", "DIQUE", "TRAFICO BAHIA", "DRAGA", "FLUVIAL PASAJEROS",
+                 "GRÚA FLOTANTE", "EMBAR.DEPORTIVA", "CIENTIFICO"),
+  cat_puerto = c(1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4))
+
+ingresos_buque_2018 <- df_arribos %>%
+  left_join(tipo_buque, by='tipo_buque') %>% 
+  mutate(tarifa_uso_puerto  = case_when(cat_puerto == 1 ~ 0.2,
+                                        cat_puerto == 2 ~ 0.17,
+                                        cat_puerto == 3 ~ 0.14,
+                                        TRUE ~ 0),
+         arancel_uso_puerto = tarifa_uso_puerto * trb,
+         arancel_uso_puerto = case_when(trb < 500 ~ 70.43,
+                                        TRUE ~ arancel_uso_puerto))
+
+ingresos_buque_2018$arancel_uso_puerto %>% sum()
+
+#Ingresos por uso de muelles
+aux <- df_movimientos %>% 
+  select(id_escala, muro) %>% 
+  distinct()
+
+ingresos_muelle_2018 <- df_arribos %>% 
+  left_join(aux, by='id_escala') %>% 
+  mutate(tiempo_atraque     = ceiling(as_hms(rts-rta)/3600),
+         tarifa_uso_muelles = case_when(muro == "34Y5"  ~ 0.73,
+                                        muro == "6Y7"   ~ 0.58,
+                                        muro == "8Y9"   ~ 0.73,
+                                        muro == "10y11" ~ 0.44,
+                                        muro == "MUELLE C" ~ 0.73,
+                                        muro == "MUELLE C" & tipo_buque == "CONTENEDORES" ~ 5.16,
+                                        muro == "MUELLE C" & tipo_buque == "REEFER" ~ 5.16,
+                                        muro == "MUELLE C" & tipo_buque == "GRANELEROS" ~ 2.5,
+                                        muro == "CMB"   ~ 0.58,
+                                        muro == "ESC"   ~ 5.16,
+                                        TRUE ~ 0),
+         arancel_uso_muelle = as.numeric(eslora*tiempo_atraque*tarifa_uso_muelles))
+
+ingresos_muelle_2018$arancel_uso_muelle %>% sum(na.rm=T)
+
+
+
+df_movimientos %>% filter(muro == "CMB")     
+df_movimientos %>% filter(muro == "ESC")    
+
+tcp <- df_movimientos %>% filter(operador == "TCP")
+montecon <- df_movimientos %>% filter(operador == "Montecon")
+montecon$muro %>% unique()
+

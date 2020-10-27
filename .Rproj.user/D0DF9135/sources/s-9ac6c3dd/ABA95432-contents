@@ -1,0 +1,45 @@
+library(spotifyr)
+
+# Spotify ID
+client_USERNAME <- "WNano10"
+client_ID <- "99b3c95cac9646a785fc7c58d589ec77"
+client_SECRET <- "a31124853a3b4af9a8a9aa3f8a801a4e"
+acces_TOKEN <- "BQBvNNGh1jXtxbqAIrz5dngOeiE7Yoh4Bse00IZtgQqg8mg-SrW-34VsapmNh8KDsT75vxm2BzL6iVGV66k"
+
+Sys.setenv(SPOTIFY_CLIENT_ID = client_ID)
+Sys.setenv(SPOTIFY_CLIENT_SECRET = client_SECRET)
+
+### BOB DYLAN ###
+DYLAN_ID <- "74ASZWbe4lXaubB36ztrGX"
+
+dylan_albums <- get_artist_albums(id = DYLAN_ID, include_groups = "album", limit = 50) 
+
+canciones <- get_artist_audio_features(artist = 'Bob Dylan', include_groups = "album")
+
+
+### JAIME ROOS ###
+jaime_ID <- spotifyr::search_spotify("Jaime Roos", type = "artist")$id
+
+canciones_jaime <- get_artist_audio_features(artist = 'Jaime Roos', include_groups = "album")
+
+canciones %>% 
+  group_by(key_mode) %>% 
+  summarise(total = n()) %>% 
+  arrange(desc(total))
+
+
+
+### DIVIDIDOS ###
+divididos_ID <- spotifyr::search_spotify("Divididos", type = "artist")$id
+
+popularidad_divididos <- get_artists(divididos_ID[1])
+canciones_divididos <- get_artist_audio_features(artist = 'Divididos')
+toptracks_divididos <- get_artist_top_tracks(id=divididos_ID[1])
+
+### NATALIA OREIRO ###
+natalia_ID <- spotifyr::search_spotify("Natalia Oreiro", type = "artist")$id
+
+popularidad_natalia <- get_artist(natalia_ID[1])
+canciones_natalia <- get_artist_audio_features(artist = 'Natalia Oreiro')
+toptracks_natalia <- get_artist_top_tracks(id=natalia_ID[1])
+
