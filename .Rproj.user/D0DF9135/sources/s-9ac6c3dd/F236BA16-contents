@@ -1,14 +1,6 @@
-
-# library(rvest)
-#library(stringi)
-# library(xml2)
 library(dplyr)
-# library(stringr)
-# library(janitor)
 library(XML)
 library(RCurl)
-# library(rlist)
-
 
 ### path de las sesiones e indices de participantes
 
@@ -23,8 +15,7 @@ path_particip_2012 <- "http://www.alapop.org/alap/index.php?option=com_content&v
 path_sesiones_2010 <- "http://www.alapop.org/alap/index.php?option=com_content&view=article&layout=edit&id=1448&Itemid=339"
 path_particip_2010 <- "http://www.alapop.org/alap/index.php?option=com_content&view=article&layout=edit&id=1449&Itemid=339"
 
-# tables <- list.clean(tables, fun = is.null, recursive = FALSE)
-
+path_sesiones_2008 <- "http://www.alapop.org/alap/index.php?option=com_content&view=article&id=128&Itemid=895"
 
 # funcion para scrapear las tablas de las sesiones
 scrapea_sesiones <- function(path) {
@@ -38,8 +29,8 @@ scrapea_sesiones <- function(path) {
 }
 
 # loopeo entre los paths
-paths_sesiones   <- c(path_sesiones_2010, path_sesiones_2012, path_sesiones_2014)
-nombres_sesiones <- c("sesiones_2010", "sesiones_2012", "sesiones_2014")
+paths_sesiones   <- c(path_sesiones_2008, path_sesiones_2010, path_sesiones_2012, path_sesiones_2014)
+nombres_sesiones <- c("sesiones_2008", "sesiones_2010", "sesiones_2012", "sesiones_2014")
 
 
 for(i in 1:length(paths_sesiones)){

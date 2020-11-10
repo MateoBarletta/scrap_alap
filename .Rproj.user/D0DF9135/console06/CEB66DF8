@@ -21,3 +21,319 @@ nothing added to commit but untracked files present (use "git add" to track)
 ]0;/home/mbarletta/6_varios/alap~/6_varios/alap[36m [00m > git add -all
 error: did you mean `--all` (with two dashes ?)
 ]0;/home/mbarletta/6_varios/alap~/6_varios/alap[36m [00m > git add -all[C-all
+]0;/home/mbarletta/6_varios/alap~/6_varios/alap[36m [00m > git commit -m 'repo para pia'
+[master (root-commit) caa675f] repo para pia
+ 100 files changed, 2096 insertions(+)
+ create mode 100644 .Rproj.user/D0DF9135/console06/CEB66DF8
+ create mode 100644 .Rproj.user/D0DF9135/console06/CEB66DF8.env
+ create mode 100644 .Rproj.user/D0DF9135/console06/INDEX001
+ create mode 100644 .Rproj.user/D0DF9135/pcs/files-pane.pper
+ create mode 100644 .Rproj.user/D0DF9135/pcs/source-pane.pper
+ create mode 100644 .Rproj.user/D0DF9135/pcs/windowlayoutstate.pper
+ create mode 100644 .Rproj.user/D0DF9135/pcs/workbench-pane.pper
+ create mode 100644 .Rproj.user/D0DF9135/persistent-state
+ create mode 100644 .Rproj.user/D0DF9135/saved_source_markers
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/110BDBA1
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/188D3B99
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/452CC8DC
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/45E1FF5F
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/5BEF8AB4
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/64E1BC76
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/67C4E916
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/8CE2780B
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/8E6A0994
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/94FC60E6
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/ADEA9C07
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/B908374B
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/DA7603B9
+ create mode 100644 .Rproj.user/D0DF9135/sources/prop/INDEX
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/13E05CF5-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/1543F39E-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/1ADCDBCB-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/1B33DFBC-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/1DB27416-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/2B5DC66E-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/2D8F9E5D-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/30340511-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/303DB815
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/303DB815-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/354A18C4-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3784F250-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3ABD1BF3-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3B21EF7E-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3B5B5057-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3D069B2B-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/48A47A4B-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/4A7959D-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/4AE69F96-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/4B8808D0-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/4C2F465D-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/50D4859B-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/55E34F79-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/57114918-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/5A016346-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6AE2F07A-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6B505EFC-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6B794E-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6C4C3E18-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6F6196D0-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/70BFD76A-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/716C52D4-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/77D650CE-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/78C70368-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/7AF166F7-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/8498388C-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/86AD9192-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/8CB07852-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/901C797D-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/95B56ED7-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/9F52E5F9-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/9FD43BDB-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/A069D123-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/A10F96E
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/A10F96E-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/A7F2B8E9-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/ABA95432-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/AE7C04D-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/B19A958D-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/B6EC1DB5-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/B71E545D-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/BAE884DD-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/BFAB5A0C-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/C03B5AD9-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/D521145B-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/D6A36F74-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/D8634ADE-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/DA7681AE-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/DAA75F25-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/DB8D4BBA-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/E1826D2F-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/E74B3257-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/EA34E68A-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/EBE4C731-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/F236BA16
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/F236BA16-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/F2B729BB-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/FC707263-contents
+ create mode 100644 .Rproj.user/D0DF9135/sources/s-9ac6c3dd/lock_file
+ create mode 100644 .Rproj.user/shared/notebooks/patch-chunk-names
+ create mode 100644 .Rproj.user/shared/notebooks/paths
+ create mode 100644 alap.Rproj
+ create mode 100644 data/df_sesiones_alap_2010_2014.xls
+ create mode 100644 data/participantes.rds
+ create mode 100644 data/sesiones.rds
+ create mode 100644 src/1_scrap.R
+ create mode 100644 src/2_tidy.R
+]0;/home/mbarletta/6_varios/alap~/6_varios/alap[36m (master) [00m > git push origin master
+error: cannot run rpostback-askpass: No such file or directory
+Username for 'https://github.com': mateobarletta
+error: cannot run rpostback-askpass: No such file or directory
+Password for 'https://mateobarletta@github.com': 
+Counting objects: 51, done.
+Delta compression using up to 2 threads.
+Compressing objects:   2% (1/45)   Compressing objects:   4% (2/45)   Compressing objects:   6% (3/45)   Compressing objects:   8% (4/45)   Compressing objects:  11% (5/45)   Compressing objects:  13% (6/45)   Compressing objects:  15% (7/45)   Compressing objects:  17% (8/45)   Compressing objects:  20% (9/45)   Compressing objects:  22% (10/45)   Compressing objects:  24% (11/45)   Compressing objects:  26% (12/45)   Compressing objects:  28% (13/45)   Compressing objects:  31% (14/45)   Compressing objects:  33% (15/45)   Compressing objects:  35% (16/45)   Compressing objects:  37% (17/45)   Compressing objects:  40% (18/45)   Compressing objects:  42% (19/45)   Compressing objects:  44% (20/45)   Compressing objects:  46% (21/45)   Compressing objects:  48% (22/45)   Compressing objects:  51% (23/45)   Compressing objects:  53% (24/45)   Compressing objects:  55% (25/45)   Compressing objects:  57% (26/45)   Compressing objects:  60% (27/45)   Compressing objects:  62% (28/45)   Compressing objects:  64% (29/45)   Compressing objects:  66% (30/45)   Compressing objects:  68% (31/45)   Compressing objects:  71% (32/45)   Compressing objects:  73% (33/45)   Compressing objects:  75% (34/45)   Compressing objects:  77% (35/45)   Compressing objects:  80% (36/45)   Compressing objects:  82% (37/45)   Compressing objects:  84% (38/45)   Compressing objects:  86% (39/45)   Compressing objects:  88% (40/45)   Compressing objects:  91% (41/45)   Compressing objects:  93% (42/45)   Compressing objects:  95% (43/45)   Compressing objects:  97% (44/45)   Compressing objects: 100% (45/45)   Compressing objects: 100% (45/45), done.
+Writing objects:   1% (1/51)   Writing objects:   3% (2/51)   Writing objects:   5% (3/51)   Writing objects:   7% (4/51)   Writing objects:   9% (5/51)   Writing objects:  11% (6/51)   Writing objects:  13% (7/51)   Writing objects:  15% (8/51)   Writing objects:  17% (9/51)   Writing objects:  19% (10/51)   Writing objects:  21% (11/51)   Writing objects:  23% (12/51)   Writing objects:  25% (13/51)   Writing objects:  27% (14/51)   Writing objects:  29% (15/51)   Writing objects:  31% (16/51)   Writing objects:  33% (17/51)   Writing objects:  35% (18/51)   Writing objects:  37% (19/51)   Writing objects:  39% (20/51)   Writing objects:  41% (21/51)   Writing objects:  43% (22/51)   Writing objects:  45% (23/51)   Writing objects:  47% (24/51)   Writing objects:  49% (25/51)   Writing objects:  50% (26/51)   Writing objects:  56% (29/51)   Writing objects:  58% (30/51)   Writing objects:  60% (31/51)   Writing objects:  62% (32/51)   Writing objects:  64% (33/51)   Writing objects:  66% (34/51)   Writing objects:  68% (35/51)   Writing objects:  70% (36/51)   Writing objects:  72% (37/51)   Writing objects:  74% (38/51)   Writing objects:  76% (39/51)   Writing objects:  78% (40/51)   Writing objects:  80% (41/51)   Writing objects:  82% (42/51)   Writing objects:  84% (43/51)   Writing objects:  86% (44/51)   Writing objects:  88% (45/51)   Writing objects:  90% (46/51)   Writing objects:  92% (47/51)   Writing objects:  94% (48/51)   Writing objects:  96% (49/51)   Writing objects:  98% (50/51)   Writing objects: 100% (51/51)   Writing objects: 100% (51/51), 138.63 KiB | 0 bytes/s, done.
+Total 51 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas:   0% (0/2)[Kremote: Resolving deltas: 100% (2/2)[Kremote: Resolving deltas: 100% (2/2), done.[K
+To https://github.com/MateoBarletta/scrap_alap.git
+ * [new branch]      master -> master
+git status
+On branch master
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	[31mmodified:   .Rproj.user/D0DF9135/console06/CEB66DF8[m
+	[31mmodified:   .Rproj.user/D0DF9135/console06/INDEX001[m
+	[31mmodified:   .Rproj.user/D0DF9135/pcs/files-pane.pper[m
+	[31mmodified:   .Rproj.user/D0DF9135/pcs/source-pane.pper[m
+	[31mmodified:   .Rproj.user/D0DF9135/pcs/windowlayoutstate.pper[m
+	[31mmodified:   .Rproj.user/D0DF9135/persistent-state[m
+	[31mmodified:   .Rproj.user/D0DF9135/sources/prop/67C4E916[m
+	[31mmodified:   .Rproj.user/D0DF9135/sources/prop/DA7603B9[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/13E05CF5-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/1543F39E-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/1ADCDBCB-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/1B33DFBC-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/1DB27416-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/2B5DC66E-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/2D8F9E5D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/30340511-contents[m
+	[31mmodified:   .Rproj.user/D0DF9135/sources/s-9ac6c3dd/303DB815[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/354A18C4-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3784F250-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3ABD1BF3-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3B21EF7E-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3B5B5057-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3D069B2B-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/48A47A4B-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/4A7959D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/4AE69F96-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/4B8808D0-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/4C2F465D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/50D4859B-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/55E34F79-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/57114918-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/5A016346-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6AE2F07A-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6B505EFC-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6B794E-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6C4C3E18-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6F6196D0-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/70BFD76A-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/716C52D4-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/77D650CE-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/78C70368-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/7AF166F7-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/8498388C-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/86AD9192-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/8CB07852-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/901C797D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/95B56ED7-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/9F52E5F9-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/9FD43BDB-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/A069D123-contents[m
+	[31mmodified:   .Rproj.user/D0DF9135/sources/s-9ac6c3dd/A10F96E[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/A7F2B8E9-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/ABA95432-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/AE7C04D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/B19A958D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/B6EC1DB5-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/B71E545D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/BAE884DD-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/BFAB5A0C-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/C03B5AD9-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/D521145B-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/D6A36F74-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/D8634ADE-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/DA7681AE-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/DAA75F25-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/DB8D4BBA-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/E1826D2F-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/E74B3257-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/EA34E68A-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/EBE4C731-contents[m
+	[31mmodified:   .Rproj.user/D0DF9135/sources/s-9ac6c3dd/F236BA16[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/F2B729BB-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/FC707263-contents[m
+	[31mmodified:   .Rproj.user/D0DF9135/sources/s-9ac6c3dd/lock_file[m
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	[31m.gitignore[m
+
+no changes added to commit (use "git add" and/or "git commit -a")
+]0;/home/mbarletta/6_varios/alap~/6_varios/alap[36m (master) [00m > git pull origin master
+remote: Enumerating objects: 7, done.[K
+remote: Counting objects:  14% (1/7)[Kremote: Counting objects:  28% (2/7)[Kremote: Counting objects:  42% (3/7)[Kremote: Counting objects:  57% (4/7)[Kremote: Counting objects:  71% (5/7)[Kremote: Counting objects:  85% (6/7)[Kremote: Counting objects: 100% (7/7)[Kremote: Counting objects: 100% (7/7), done.[K
+remote: Compressing objects:  50% (1/2)[Kremote: Compressing objects: 100% (2/2)[Kremote: Compressing objects: 100% (2/2), done.[K
+remote: Total 4 (delta 2), reused 4 (delta 2), pack-reused 0[K
+Unpacking objects:  25% (1/4)   Unpacking objects:  50% (2/4)   Unpacking objects:  75% (3/4)   Unpacking objects: 100% (4/4)   Unpacking objects: 100% (4/4), done.
+From https://github.com/MateoBarletta/scrap_alap
+ * branch            master     -> FETCH_HEAD
+   caa675f..ba9ecde  master     -> origin/master
+Updating caa675f..ba9ecde
+Fast-forward
+ src/1_scrap.R | 15 [32m+++[m[31m------------[m
+ 1 file changed, 3 insertions(+), 12 deletions(-)
+[K~/6_varios/alap[36m (master) [00m > git status
+On branch master
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	[31mmodified:   .Rproj.user/D0DF9135/console06/CEB66DF8[m
+	[31mmodified:   .Rproj.user/D0DF9135/console06/CEB66DF8.env[m
+	[31mmodified:   .Rproj.user/D0DF9135/console06/INDEX001[m
+	[31mmodified:   .Rproj.user/D0DF9135/pcs/files-pane.pper[m
+	[31mmodified:   .Rproj.user/D0DF9135/pcs/source-pane.pper[m
+	[31mmodified:   .Rproj.user/D0DF9135/pcs/windowlayoutstate.pper[m
+	[31mmodified:   .Rproj.user/D0DF9135/persistent-state[m
+	[31mmodified:   .Rproj.user/D0DF9135/sources/prop/67C4E916[m
+	[31mmodified:   .Rproj.user/D0DF9135/sources/prop/DA7603B9[m
+	[31mmodified:   .Rproj.user/D0DF9135/sources/prop/INDEX[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/13E05CF5-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/1543F39E-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/1ADCDBCB-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/1B33DFBC-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/1DB27416-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/2B5DC66E-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/2D8F9E5D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/30340511-contents[m
+	[31mmodified:   .Rproj.user/D0DF9135/sources/s-9ac6c3dd/303DB815[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/354A18C4-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3784F250-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3ABD1BF3-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3B21EF7E-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3B5B5057-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/3D069B2B-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/48A47A4B-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/4A7959D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/4AE69F96-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/4B8808D0-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/4C2F465D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/50D4859B-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/55E34F79-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/57114918-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/5A016346-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6AE2F07A-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6B505EFC-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6B794E-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6C4C3E18-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/6F6196D0-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/70BFD76A-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/716C52D4-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/77D650CE-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/78C70368-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/7AF166F7-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/8498388C-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/86AD9192-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/8CB07852-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/901C797D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/95B56ED7-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/9F52E5F9-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/9FD43BDB-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/A069D123-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/A10F96E[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/A10F96E-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/A7F2B8E9-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/ABA95432-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/AE7C04D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/B19A958D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/B6EC1DB5-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/B71E545D-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/BAE884DD-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/BFAB5A0C-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/C03B5AD9-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/D521145B-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/D6A36F74-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/D8634ADE-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/DA7681AE-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/DAA75F25-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/DB8D4BBA-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/E1826D2F-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/E74B3257-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/EA34E68A-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/EBE4C731-contents[m
+	[31mmodified:   .Rproj.user/D0DF9135/sources/s-9ac6c3dd/F236BA16[m
+	[31mmodified:   .Rproj.user/D0DF9135/sources/s-9ac6c3dd/F236BA16-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/F2B729BB-contents[m
+	[31mdeleted:    .Rproj.user/D0DF9135/sources/s-9ac6c3dd/FC707263-contents[m
+	[31mmodified:   .Rproj.user/D0DF9135/sources/s-9ac6c3dd/lock_file[m
+	[31mmodified:   .Rproj.user/shared/notebooks/paths[m
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	[31m.gitignore[m
+	[31mdata/df_sesiones_alap.xls[m
+	[31mdata/lecturas_2010.rds[m
+	[31mdata/lecturas_2012.rds[m
+	[31mdata/lecturas_2014.rds[m
+	[31msrc/funcion_auxiliar.R[m
+	[31msrc/lecturas.R[m
+	[31msrc/sesiones.R[m
+
+no changes added to commit (use "git add" and/or "git commit -a")
+]0;/home/mbarletta/6_varios/alap~/6_varios/alap[36m (master) [00m > git add --all
